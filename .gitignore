@@ -1,0 +1,17 @@
+# Environment — never commit the API key
+.env
+
+# Generated Excel output files
+portfolio_*.xlsx
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+.venv/
+*.egg-info/
+
+# macOS
+.DS_Store

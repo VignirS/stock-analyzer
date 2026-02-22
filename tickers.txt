@@ -1,0 +1,17 @@
+# Stock Portfolio Tickers
+# Format: TICKER[,SHARES[,BUY_DATE]]
+#   TICKER    — Yahoo Finance symbol (required)
+#   SHARES    — number of shares held (optional, pre-fills column O in Excel)
+#   BUY_DATE  — purchase date YYYY-MM-DD (optional, enables P&L columns in Excel)
+
+AAPL,50,2022-06-15
+MSFT,20,2021-11-22
+ASML.AS,8,2023-01-16
+NOVO-B.CO,150,2021-05-10
+AMZN,30,2023-07-05
+SAP.DE,25,2022-09-19
+ALV.DE,12,2022-03-14
+MUV2.DE,6,2023-08-21
+NESN.SW,80,2022-05-23
+GOOGL,25,2024-01-08
+NVDA,20,2023-05-15
