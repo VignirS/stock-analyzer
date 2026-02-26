@@ -735,7 +735,7 @@ def create_errors_sheet(wb, failed):
 
 # ─── Sheet: AI Analysis ───────────────────────────────────────────────────────
 
-def create_ai_sheet(wb, stocks, api_key, model="claude-sonnet-4-6"):
+def create_ai_sheet(wb, stocks, api_key=None, auth_token=None, model="claude-sonnet-4-6"):
     import anthropic
 
     ws = wb.create_sheet("AI Analysis")
@@ -807,7 +807,7 @@ def create_ai_sheet(wb, stocks, api_key, model="claude-sonnet-4-6"):
     print(f"  Calling {model} (streaming)...")
     print("  " + "-" * 56)
     try:
-        client_ai = anthropic.Anthropic(api_key=api_key)
+        client_ai = anthropic.Anthropic(auth_token=auth_token) if auth_token else anthropic.Anthropic(api_key=api_key)
         analysis_parts = []
         with client_ai.messages.stream(
             model=model,
@@ -936,13 +936,14 @@ def run_analysis(args):
         create_errors_sheet(wb, failed)
         print(f"  + Errors sheet  ({len(failed)} failed ticker(s))")
 
-    api_key  = os.environ.get("ANTHROPIC_API_KEY")
-    skip_ai  = getattr(args, "no_ai", False)
-    model    = getattr(args, "model", "claude-sonnet-4-6")
+    api_key    = os.environ.get("ANTHROPIC_API_KEY")
+    auth_token = os.environ.get("ANTHROPIC_AUTH_TOKEN")
+    skip_ai    = getattr(args, "no_ai", False)
+    model      = getattr(args, "model", "claude-sonnet-4-6")
 
-    if api_key and not skip_ai:
+    if (api_key or auth_token) and not skip_ai:
         print(f"\nGenerating AI analysis (this may take 15-30 s)...")
-        create_ai_sheet(wb, stocks, api_key, model)
+        create_ai_sheet(wb, stocks, api_key=api_key, auth_token=auth_token, model=model)
         print("  + AI Analysis sheet")
     elif skip_ai:
         print("\n  --no-ai flag set — AI Analysis sheet skipped.")
